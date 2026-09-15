@@ -1,3 +1,12 @@
+---
+title: Lawrean Kompa API
+emoji: 📄
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # Lawrean Kompa
 
 Lawrean Kompa is a browser-based prototype for comparing two versions of a commercial offer PDF and identifying substantive changes between them.
