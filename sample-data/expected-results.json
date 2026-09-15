@@ -1,0 +1,57 @@
+{
+  "normal_revision": {
+    "original": "original.pdf",
+    "revised": "revised.pdf",
+    "expected": {
+      "substantive_changes": true,
+      "uncertain_matches": 0,
+      "removed_items": 1,
+      "added_items": 0,
+      "original_calculated_total": 5840,
+      "revised_calculated_total": 6490,
+      "revised_stated_total": 6390,
+      "arithmetic_discrepancy": true,
+      "delivery_date_changed": true
+    }
+  },
+  "ambiguous_match": {
+    "original": "ambiguous-original.pdf",
+    "revised": "ambiguous-revised.pdf",
+    "expected": {
+      "substantive_changes": true,
+      "uncertain_matches": 1,
+      "removed_items": 0,
+      "added_items": 0,
+      "original_calculated_total": 5840,
+      "revised_calculated_total": 5840,
+      "arithmetic_discrepancy": false
+    }
+  },
+  "formatting_only": {
+    "original": "original.pdf",
+    "revised": "formatting-only.pdf",
+    "expected": {
+      "substantive_changes": false,
+      "change_count": 0,
+      "uncertain_matches": 0,
+      "original_calculated_total": 5840,
+      "revised_calculated_total": 5840,
+      "original_stated_total": 5840,
+      "revised_stated_total": 5840
+    }
+  },
+  "unresolvable_match": {
+    "original": "unresolvable-original.pdf",
+    "revised": "unresolvable-revised.pdf",
+    "expected": {
+      "substantive_changes": true,
+      "uncertain_matches": 0,
+      "removed_items": 0,
+      "added_items": 0,
+      "needs_clarification": true,
+      "original_calculated_total": 1200,
+      "revised_calculated_total": 1200,
+      "arithmetic_discrepancy": false
+    }
+  }
+}
