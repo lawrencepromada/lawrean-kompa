@@ -3,6 +3,5 @@ uvicorn==0.53.0
 pymupdf==1.28.2
 pydantic==2.13.5
 python-multipart==0.0.32
-fastembed==0.8.0
-numpy
+sentence-transformers
 pytest==9.1.1

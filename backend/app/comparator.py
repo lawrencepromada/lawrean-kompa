@@ -1,6 +1,6 @@
 from app.calculator import calculate_offer
 from app.models import Change, ComparisonResult, Offer
-from app.matcher import match_items
+from app.matcher_fast import match_items
 
 
 def compare_offers(

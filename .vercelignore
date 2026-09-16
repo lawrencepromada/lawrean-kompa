@@ -1,0 +1,14 @@
+.venv
+backend/.venv
+backend/deploy-test
+backend/deploy-test-linux
+backend/deploy-test-linux-cpu
+backend/.vercel
+frontend/node_modules
+frontend/dist
+sample-data
+backend/tests
+.git
+.vercel
+deploy-test-cpu
+deploy-test-linux-cpu
