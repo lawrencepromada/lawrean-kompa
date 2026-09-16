@@ -1,22 +1,19 @@
----
-title: Lawrean Kompa API
-emoji: 📄
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
----
-
 # Lawrean Kompa
 
 Lawrean Kompa is a browser-based prototype for comparing two versions of a commercial offer PDF and identifying substantive changes between them.
 
 The prototype is designed for text-based commercial offer PDFs and focuses on reliable comparison of item descriptions, quantities, unit prices, totals, delivery dates, and arithmetic discrepancies.
 
-## Project Summary
+## Public Demo
 
-Lawrean Kompa helps users review revised commercial offers without manually comparing every line item. It extracts structured data from both PDFs, matches corresponding items despite renaming or reordering, identifies substantive changes, and independently recalculates financial totals. When the system cannot confidently determine a correspondence, it flags the case for clarification rather than making an unsupported conclusion. Each reported change is backed by source evidence from the documents.
+**Frontend:**
+https://frontend-ten-gamma-54.vercel.app
 
+**Backend API:**
+https://lawrean-kompa.vercel.app
+
+**Source Code:**
+https://github.com/lawrencepromada/lawrean-kompa
 
 ## Core Workflow
 
@@ -27,31 +24,42 @@ Lawrean Kompa helps users review revised commercial offers without manually comp
 5. Detect substantive commercial changes.
 6. Recalculate totals deterministically.
 7. Identify discrepancies between stated and calculated totals.
-8. Flag uncertain matches instead of making unsupported conclusions.
+8. Flag uncertain or unresolvable matches instead of making unsupported conclusions.
 9. Show source evidence from both documents for detected changes.
 
 ## Architecture
 
+```text
 Browser
-→ React + Vite frontend
-→ FastAPI backend
-→ PyMuPDF PDF extraction
-→ Structured document parsing
-→ Semantic item matching
-→ Deterministic comparison and calculation
-→ Results displayed in the browser
+   ↓
+React + Vite frontend
+   ↓
+FastAPI backend
+   ↓
+PyMuPDF PDF extraction
+   ↓
+Structured document parsing
+   ↓
+Semantic item matching
+   ↓
+Deterministic comparison and calculation
+   ↓
+Results with source evidence
+```
+
+The frontend and backend are deployed as separate Vercel projects.
 
 ## Important Design Decision
 
-Semantic reasoning is used only where interpretation is required, mainly for determining whether differently named line items may represent the same item.
+Semantic reasoning is used only where interpretation is required, mainly for determining whether differently named line items may represent the same commercial item.
 
 Arithmetic and commercial calculations are handled deterministically in Python.
 
-The system does not allow a language model to silently calculate or replace financial values.
+The system does not allow a language model or embedding model to silently calculate or replace financial values.
 
 ## Source Evidence
 
-Every reported substantive change should reference the relevant source location in both the original and revised documents where applicable.
+Every reported substantive change references the relevant source location in the original and revised documents where applicable.
 
 Source locations contain:
 
@@ -76,20 +84,25 @@ This allows detected changes to be traced back to the source PDFs.
 * FastAPI
 * Pydantic
 * PyMuPDF
-* sentence-transformers
+* FastEmbed
+* NumPy
 * pytest
 
-### Semantic Matching Model
+### Semantic Matching
 
 The prototype uses:
 
-sentence-transformers/all-MiniLM-L6-v2
+`sentence-transformers/all-MiniLM-L6-v2`
 
-The model runs locally and is used for semantic similarity between line-item descriptions.
+through **FastEmbed** for local embedding generation.
+
+The same model is used to calculate semantic similarity between line-item descriptions. Matching thresholds classify results as confirmed, uncertain, or unresolved.
+
+The deployment version uses FastEmbed/ONNX rather than the larger PyTorch-based Sentence Transformers runtime. This keeps the deployment substantially lighter while retaining the required semantic matching workflow.
 
 ## Project Structure
 
-```
+```text
 lawrean_kompa/
 ├── backend/
 │   ├── app/
@@ -98,11 +111,20 @@ lawrean_kompa/
 │   │   ├── pdf_extractor.py
 │   │   ├── parser.py
 │   │   ├── matcher.py
+│   │   ├── matcher_fast.py
 │   │   └── comparator.py
 │   ├── tests/
+│   │   ├── test_models.py
+│   │   ├── test_pdf_extractor.py
+│   │   ├── test_parser.py
+│   │   ├── test_matcher.py
+│   │   ├── test_comparator.py
+│   │   ├── test_calculator.py
+│   │   └── test_evaluation.py
 │   ├── calculator.py
 │   ├── measure_timing.py
-│   └── requirements.txt
+│   ├── requirements.txt
+│   └── requirements-local.txt
 │
 ├── frontend/
 │   ├── src/
@@ -120,16 +142,19 @@ lawrean_kompa/
 │   ├── unresolvable-revised.pdf
 │   └── expected-results.json
 │
-└── README.md
+├── README.md
+├── DELIVERY_NOTES.md
+├── Dockerfile
+└── .vercelignore
 ```
 
 ## Running Locally
 
 ### Backend
 
-Open Command Prompt and run:
+Open Command Prompt:
 
-```
+```cmd
 cd /d D:\Lawrean\lawrean_kompa\backend
 .venv\Scripts\activate
 uvicorn app.main:app --reload
@@ -137,26 +162,26 @@ uvicorn app.main:app --reload
 
 The backend runs at:
 
-```
+```text
 http://127.0.0.1:8000
 ```
 
 ### Frontend
 
-Open a second Command Prompt window and run:
+Open a second Command Prompt window:
 
-```
+```cmd
 cd /d D:\Lawrean\lawrean_kompa\frontend
 npm run dev
 ```
 
-The frontend runs at:
+The frontend normally runs at:
 
-```
+```text
 http://localhost:5173
 ```
 
-Open the frontend address in a browser.
+The frontend uses the `VITE_API_URL` environment variable when deployed. If the variable is not set, it falls back to the local FastAPI address.
 
 ## Input Constraints
 
@@ -173,42 +198,25 @@ Handwritten or scanned documents are outside the current prototype scope because
 
 ## Testing
 
-The backend includes unit tests and an evaluation test set.
+The backend includes unit tests and a reproducible evaluation test set.
 
-Run the complete test suite with:
+Run the complete test suite:
 
-```
+```cmd
 cd /d D:\Lawrean\lawrean_kompa\backend
 .venv\Scripts\activate
 pytest -q
 ```
 
-Current result:
+Final result:
 
-```
+```text
 12 passed
-```
 
-The evaluation scenarios are run with:
-
-```
-pytest -q -s tests\test_evaluation.py
-```
-
-Current evaluation result:
-
-```
-Expected-change scenarios: 3
-Detected-change scenarios: 3
-False-change scenarios: 0
-Missed-change scenarios: 0
-Source references valid: 10/10
-Source-reference accuracy: 100.0%
-```
 
 ## Evaluation Scenarios
 
-The reproducible test set contains four scenarios.
+The reproducible evaluation set contains four scenarios.
 
 ### 1. Normal Revision
 
@@ -223,39 +231,58 @@ Tests:
 * Incorrect stated grand total
 * Arithmetic discrepancy
 
-Expected result:
+Result:
 
-Substantive changes are detected and source evidence is provided.
+* Expected substantive changes: detected
+* Changes reported: 8
+* Arithmetic discrepancy: detected
+* Source evidence: provided
 
 ### 2. Ambiguous Match
 
-Tests a renamed item where the semantic similarity is not high enough for a confident match.
+Tests a renamed item where semantic similarity is not high enough for a confident match.
 
-Expected result:
+Result:
 
-The item is flagged for review instead of being treated as a confirmed match.
+* Match is marked **Needs review**
+* No unsupported commercial change is inferred from the uncertain match
 
 ### 3. Formatting Only
 
 Tests visual and formatting changes without changing commercial meaning.
 
-Expected result:
+Result:
 
-No substantive commercial changes are reported.
+* 0 substantive changes
+* 5 confirmed matches
 
 ### 4. Unresolvable Match
 
 Tests two items where the system cannot safely determine whether they correspond.
 
-Expected result:
+Result:
 
-The system asks for clarification instead of incorrectly reporting an item as removed or added.
+* The system displays **Needs clarification**
+* It does not incorrectly report the original item as removed and the revised item as added
+
+## Final Evaluation Result
+
+```text
+Expected-change scenarios: 3
+Detected-change scenarios: 3
+False-change scenarios: 0
+Missed-change scenarios: 0
+Source references valid: 10/10
+Source-reference accuracy: 100.0%
+```
+
+The evaluation was run against the reproducible sample-data scenarios rather than hard-coded answers in the application.
 
 ## Deterministic Calculation
 
 For each line item, the system calculates:
 
-```
+```text
 quantity × unit price = calculated line total
 ```
 
@@ -263,7 +290,7 @@ It compares the calculated value with the stated line total.
 
 For the offer:
 
-```
+```text
 sum of calculated line totals = calculated grand total
 ```
 
@@ -271,45 +298,86 @@ The calculated grand total is then compared with the stated grand total.
 
 The system reports discrepancies rather than silently replacing the source value.
 
+For example, in the normal revision scenario:
+
+```text
+Revised stated total:     USD 6,390
+Revised calculated total: USD 6,490
+Difference:               USD 100
+```
+
+The source-stated value remains visible while the calculated value is shown separately.
+
 ## Measured Processing Time
 
 A three-run timing test was performed using the normal revision scenario.
 
-Results:
-
-```
+```text
 Run 1: 21.997s client total | 7.742s API processing
-Run 2: 0.141s client total  | 0.134s API processing
-Run 3: 0.126s client total  | 0.119s API processing
+Run 2:  0.141s client total | 0.134s API processing
+Run 3:  0.126s client total | 0.119s API processing
 ```
 
 The first run includes cold-start and semantic-model loading overhead.
 
 Warm API processing in runs 2 and 3 was approximately:
 
-```
+```text
 0.119s - 0.134s
 ```
 
-## Estimated Variable Cost
+The timing test measures client/API processing rather than a separately instrumented user-visible result-rendering duration.
 
-The current text-PDF workflow does not use a paid external AI API.
+## AI Tools and Models
 
-Semantic matching uses the locally running:
+The prototype does not use a paid external reasoning API.
 
-```
+Semantic matching uses:
+
+```text
+FastEmbed
 sentence-transformers/all-MiniLM-L6-v2
 ```
 
-No paid speech recognition, speech generation, OCR, or external reasoning API is used in the current workflow.
+The embedding model is used only for semantic similarity between line-item descriptions.
+
+Financial calculations, totals, discrepancy detection, and change classification are performed by deterministic application code.
+
+## Estimated Variable Cost
+
+The current workflow does not use a paid external AI API.
+
+There is no paid:
+
+* LLM API
+* OCR API
+* speech recognition API
+* speech generation API
+* external reasoning API
 
 Estimated third-party/API variable cost per document pair:
 
-```
+```text
 $0.00
 ```
 
-This excludes hosting and local computing/infrastructure costs.
+This excludes hosting and local/cloud computing infrastructure costs.
+
+## Deployment
+
+The final prototype is deployed as two Vercel projects:
+
+```text
+React/Vite frontend
+        ↓
+https://frontend-ten-gamma-54.vercel.app
+        ↓
+FastAPI backend
+        ↓
+https://lawrean-kompa.vercel.app
+```
+
+The backend uses FastEmbed for semantic matching to avoid the large deployment footprint associated with the PyTorch-based Sentence Transformers runtime.
 
 ## Limitations
 
