@@ -30,7 +30,12 @@ class Offer(BaseModel):
     line_items: list[LineItem] = []
     stated_grand_total: Optional[float] = None
     grand_total_source: Optional[SourceLocation] = None
+
+    # Document dates
+    date: Optional[DeliveryDate] = None
+    revision_date: Optional[DeliveryDate] = None
     delivery_date: Optional[DeliveryDate] = None
+
 
 class MatchResult(BaseModel):
     original_index: Optional[int] = None
@@ -38,6 +43,7 @@ class MatchResult(BaseModel):
     status: str
     confidence: float
     reason: str
+
 
 class Change(BaseModel):
     change_type: str
@@ -47,6 +53,7 @@ class Change(BaseModel):
     original_source: Optional[SourceLocation] = None
     revised_source: Optional[SourceLocation] = None
     severity: str = "info"
+
 
 class ComparisonResult(BaseModel):
     currency: Optional[str] = None
