@@ -1,4 +1,5 @@
 import numpy as np
+from pathlib import Path
 from functools import lru_cache
 
 from fastembed import TextEmbedding
@@ -15,9 +16,15 @@ UNCERTAIN_THRESHOLD = 0.45
 
 @lru_cache(maxsize=1)
 def get_model():
+    model_path = (
+        Path(__file__).resolve().parents[1]
+        / "models"
+        / "all-MiniLM-L6-v2"
+    )
+
     return TextEmbedding(
         model_name=MODEL_NAME,
-        cache_dir="/tmp/fastembed_cache",
+        specific_model_path=str(model_path),
     )
 
 
