@@ -12,9 +12,13 @@ CONFIRMED_THRESHOLD = 0.70
 UNCERTAIN_THRESHOLD = 0.45
 
 
+
 @lru_cache(maxsize=1)
 def get_model():
-    return TextEmbedding(MODEL_NAME)
+    return TextEmbedding(
+        model_name=MODEL_NAME,
+        cache_dir="/tmp/fastembed_cache",
+    )
 
 
 def normalize_description(description: str) -> str:
