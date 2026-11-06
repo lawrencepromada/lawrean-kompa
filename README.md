@@ -413,6 +413,16 @@ This separation makes the system easier to test and reduces the risk of semantic
 
 ## Ownership
 
-Lawrean Kompa and its source code were developed as part of the product-builder assignment.
+Lawrean Kompa is offered for acquisition as an original software application developed by **Madara Lawrence**, who uses **Lawrence Pro Mada** as a professional identity and operates the GitHub account [lawrencepromada](https://github.com/lawrencepromada). The different Git author names in the repository history do not, by themselves, establish separate contributors or ownership. Public profile links: [portfolio](https://madara-lawrence.netlify.app/) and TikTok **@lawrencepro.mada**.
 
-This project and its code remain the property of Lawrence Pro Mada.
+The transaction concerns only original application code and other original materials that the seller owns or is authorized to transfer. This statement does not claim ownership of third-party dependencies, frameworks, models, fonts, images, trademarks, datasets, sample-document content, or external services. Confirmation of legal title, provenance, and transfer authority remains necessary; no claim is made that all intellectual-property matters have been cleared.
+
+## Acquisition
+
+Accessing this public repository or demo does not transfer ownership or grant rights to the original application materials. Any assignment or licence must be set out in a separate written agreement signed by the relevant parties; that agreement must identify the actual deliverables and rights being transferred.
+
+Excluding third-party components from the proprietary ownership claim does not automatically prevent the buyer from using or operating the application. The buyer may continue to use components under their own licences and service terms, subject to any applicable requirements. Depending on a component and the intended use or distribution, this may require obtaining a commercial licence, meeting source-disclosure or notice obligations, preserving attribution, or replacing a component. PyMuPDF and other identified third-party materials have unresolved licensing or provenance questions; this project is not represented as fully licensing-cleared.
+
+Hosting accounts, domains, analytics accounts, credentials, and external services are not automatically included in an acquisition and may be subject to separate provider terms and transfer approval. **Veran** is identified as a product brand; no claim is made here that it is a registered legal entity.
+
+See the [proprietary software notice](./LICENSE) for the scope of rights asserted over original materials and the [third-party notices inventory](./THIRD-PARTY-NOTICES.md) for identified components, terms, and open questions. Neither document is an acquisition agreement; the third-party inventory is non-exhaustive and identifies unresolved matters.

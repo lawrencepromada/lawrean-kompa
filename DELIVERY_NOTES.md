@@ -345,14 +345,59 @@ The final repository contains:
 
 ## Ownership
 
-Lawrean Kompa and its source code were developed as part of the product-builder assignment.
+Lawrean Kompa is offered for acquisition as an original software application developed by **Madara Lawrence**, who uses **Lawrence Pro Mada** as a professional identity. Any transfer is limited to original materials the seller owns or is authorized to transfer. This does not claim ownership of third-party dependencies, models, assets, trademarks, datasets, or services, and ownership and provenance remain subject to confirmation.
 
-The project and its source code remain the property of Lawrence Pro Mada.
+## Acquisition Deliverables and Exclusions
+
+The exact transaction scope must be stated in a separate written agreement
+signed by the relevant parties. The agreement must identify the actual
+deliverables and whether the transaction is an assignment of rights or a
+licence. These notes are not an acquisition agreement and do not themselves
+transfer intellectual property.
+
+### Potential deliverables
+
+Subject to confirming ownership and transfer authority, potential deliverables
+may include:
+
+* Original frontend source code
+* Original backend source code
+* Application-specific matching, comparison, and calculation logic
+* Original documentation and setup instructions
+* Other specifically identified developer-owned materials
+
+### Excluded unless separately agreed
+
+The following are not offered as seller-owned intellectual property merely
+because they are present in the repository or used by the application:
+
+* Third-party libraries, frameworks, and models
+* Third-party trademarks, fonts, images, and datasets
+* Sample PDFs or other content whose ownership or redistribution permission
+  has not been established
+* Hosting, analytics, or other provider accounts
+* Domains, external services, credentials, and provider-controlled resources
+* Any asset whose ownership or transfer permission is not established
+
+Third-party components remain subject to their own licences and service terms.
+Excluding third-party ownership does not automatically prevent the buyer from
+using the application: the buyer may use and operate components to the extent
+permitted by those terms. Depending on the component and the intended use or
+distribution, the buyer may need a commercial licence, may need to comply
+with source-disclosure or notice requirements and preserve attribution, or
+may need to replace a component. PyMuPDF, model/data lineage, some visual
+assets, and sample-document content have unresolved licensing or provenance
+questions; no claim is made that all matters are cleared.
+
+See [LICENSE](./LICENSE) and [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)
+for the scope of the proposed proprietary notice and the non-exhaustive
+third-party inventory. Neither document replaces the signed agreement or
+the original third-party licence texts.
 
 ## Final Status
 
 The prototype is complete and publicly deployed.
 
-The GitHub repository is synchronized with the final committed source.
-
-The public browser application has been tested against all four evaluation scenarios.
+The public browser application was tested against all four evaluation
+scenarios at the time of those tests. The current worktree, live deployment,
+and transaction deliverables should be verified together before transfer.
